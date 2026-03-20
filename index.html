@@ -837,7 +837,7 @@
   }
   fillBarcode();*/
 
-  /*Planes Confetti*/
+  /*Aircraft Confetti*/
   let planesLaunched = false;
   window.addEventListener('scroll', () => {
     if (planesLaunched) return;
@@ -848,13 +848,13 @@
       launchPlanes();
     }
   });
-  
+
   function launchPlanes() {
     const count = 30;
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
         const plane = document.createElement('div');
-        plane.textContent = '✈';
+        plane.textContent = '✈&#xFE0E;';
         plane.style.cssText = `
           position: fixed;
           font-size: ${12 + Math.random() * 16}px;
