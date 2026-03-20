@@ -799,80 +799,92 @@
   updateClock();
   setInterval(updateClock, 10000);
 
-const originalText = 'SFO-OLYMPIAD';
-const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
-const el = document.querySelector('.board-flight');
-let iteration = 0;
+  /* FLIP BOARD ANIMATION */
+  const originalText = 'SFO-OLYMPIAD';
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
+  const el = document.querySelector('.board-flight');
+  let iteration = 0;
 
-const flipInterval = setInterval(() => {
-  el.textContent = originalText
-    .split('')
-    .map((letter, index) => {
-      if (index < iteration) return letter;
-      if (letter === ' ') return ' ';
-      return chars[Math.floor(Math.random() * chars.length)];
-    })
-    .join('');
+  const flipInterval = setInterval(() => {
+    el.textContent = originalText
+      .split('')
+      .map((letter, index) => {
+        if (index < iteration) return letter;
+        if (letter === ' ') return ' ';
+        return chars[Math.floor(Math.random() * chars.length)];
+      })
+      .join('');
 
-  if (iteration >= originalText.length) clearInterval(flipInterval);
-  iteration += 0.4;
-}, 60);
+    if (iteration >= originalText.length) clearInterval(flipInterval);
+    iteration += 0.4;
+  }, 60);
 
-/* BARCODE GENERATION */
-function fillBarcode() {
-  const container = document.getElementById('barcode-full');
-  const width = container.offsetWidth;
-  const patterns = [2,1,3,1,2,1,2,3,1,2,1,3,2,1,2,1,3,1,2,3];
-  let filled = 0;
-  let i = 0;
-  while (filled < width - 4) {
-    const bar = document.createElement('div');
-    const w = patterns[i % patterns.length];
-    bar.style.cssText = `width:${w}px; height:100%; background:#1a1a2e; border-radius:1px; flex-shrink:0;`;
-    container.appendChild(bar);
-    filled += w + 2;
-    i++;
+  /* BARCODE GENERATION
+  function fillBarcode() {
+    const container = document.getElementById('barcode-full');
+    const width = container.offsetWidth;
+    const patterns = [2,1,3,1,2,1,2,3,1,2,1,3,2,1,2,1,3,1,2,3];
+    let filled = 0;
+    let i = 0;
+    while (filled < width - 4) {
+      const bar = document.createElement('div');
+      const w = patterns[i % patterns.length];
+      bar.style.cssText = `width:${w}px; height:100%; background:#1a1a2e; border-radius:1px; flex-shrink:0;`;
+      container.appendChild(bar);
+      filled += w + 2;
+      i++;
+    }
   }
-}
-fillBarcode();
+  fillBarcode();*/
 
-/*Planes Confetti*/
-function launchPlanes() {
-  const count = 30;
-  for (let i = 0; i < count; i++) {
-    setTimeout(() => {
-      const plane = document.createElement('div');
-      plane.textContent = '✈';
-      plane.style.cssText = `
-        position: fixed;
-        font-size: ${12 + Math.random() * 16}px;
-        left: ${40 + Math.random() * 20}%;
-        top: 100%;
-        z-index: 9999;
-        pointer-events: none;
-        opacity: 1;
-        transform: rotate(${-60 + Math.random() * 60}deg);
-        transition: none;
-      `;
-      document.body.appendChild(plane);
+  /*Planes Confetti*/
+  let planesLaunched = false;
+  window.addEventListener('scroll', () => {
+    if (planesLaunched) return;
+    const scrolled = window.scrollY + window.innerHeight;
+    const total = document.documentElement.scrollHeight;
+    if (scrolled >= total - 50) {
+      planesLaunched = true;
+      launchPlanes();
+    }
+  });
+  
+  function launchPlanes() {
+    const count = 30;
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const plane = document.createElement('div');
+        plane.textContent = '✈';
+        plane.style.cssText = `
+          position: fixed;
+          font-size: ${12 + Math.random() * 16}px;
+          left: ${40 + Math.random() * 20}%;
+          top: 100%;
+          z-index: 9999;
+          pointer-events: none;
+          opacity: 1;
+          transform: rotate(${-60 + Math.random() * 60}deg);
+          transition: none;
+        `;
+        document.body.appendChild(plane);
 
-      const angle = -60 - Math.random() * 80;
-      const distance = 300 + Math.random() * 400;
-      const dx = Math.cos(angle * Math.PI / 180) * distance;
-      const dy = Math.sin(angle * Math.PI / 180) * distance;
-      const duration = 800 + Math.random() * 600;
+        const angle = -60 - Math.random() * 80;
+        const distance = 300 + Math.random() * 400;
+        const dx = Math.cos(angle * Math.PI / 180) * distance;
+        const dy = Math.sin(angle * Math.PI / 180) * distance;
+        const duration = 800 + Math.random() * 600;
 
-      requestAnimationFrame(() => {
-        plane.style.transition = `transform ${duration}ms ease-out, top ${duration}ms ease-out, left ${duration}ms ease-out, opacity ${duration}ms ease-in`;
-        plane.style.left = `calc(${plane.style.left} + ${dx}px)`;
-        plane.style.top = `calc(100% + ${dy}px)`;
-        plane.style.opacity = '0';
-      });
+        requestAnimationFrame(() => {
+          plane.style.transition = `transform ${duration}ms ease-out, top ${duration}ms ease-out, left ${duration}ms ease-out, opacity ${duration}ms ease-in`;
+          plane.style.left = `calc(${plane.style.left} + ${dx}px)`;
+          plane.style.top = `calc(100% + ${dy}px)`;
+          plane.style.opacity = '0';
+        });
 
-      setTimeout(() => plane.remove(), duration + 100);
-    }, i * 40);
+        setTimeout(() => plane.remove(), duration + 100);
+      }, i * 40);
+    }
   }
-}
 </script>
 
 </body>
