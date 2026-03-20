@@ -485,10 +485,10 @@
   }
 
   @keyframes fly {
-    from { left: -60px; opacity: 0; }
-    5% { opacity: 1; }
-    95% { opacity: 1; }
-    to { left: calc(100% + 60px); opacity: 0; }
+    from { left: -60px; opacity: 0; transform: translateY(-50%); }
+    5% { opacity: 1; transform: translateY(-50%); }
+    95% { opacity: 1; transform: translateY(-50%); }
+    to { left: calc(100% + 60px); opacity: 0; transform: translateY(-50%); }
   }
 
   .trail {
