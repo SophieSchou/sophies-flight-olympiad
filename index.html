@@ -854,7 +854,7 @@
     for (let i = 0; i < count; i++) {
       setTimeout(() => {
         const plane = document.createElement('div');
-        plane.innerHTML = '✈&#xFE0E;';
+        plane.textContent = '✈\uFE0E';
         plane.style.cssText = `
           position: fixed;
           font-size: ${12 + Math.random() * 16}px;
